@@ -1,0 +1,8 @@
+#Node modules: 
+node_modules/
+#Build outputs: 
+build/
+#Environment files: 
+.env
+#Other system files:
+ *.log, *.temp
