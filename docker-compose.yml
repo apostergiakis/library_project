@@ -1,33 +1,22 @@
-version: '3.8'
+version: '3'
 services:
   backend:
     build: ./backend
     ports:
       - "8000:80"
-    depends_on:
-      - db
+    volumes:
+      - ./backend:/var/www/html
+  db:
+    image: mariadb
     environment:
-      - DATABASE_HOST=db
-      - DATABASE_USER=root
-      - DATABASE_PASSWORD=rootpassword
-      - DATABASE_NAME=library
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: library
+    ports:
+      - "3306:3306"
   frontend:
     build: ./frontend
     ports:
       - "3000:3000"
-    depends_on:
-      - backend
-  db:
-    image: mariadb
-    command: --default-authentication-plugin=mysql_native_password
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: library
-    ports:
-      - "3306:3306"
     volumes:
-      - dbdata:/var/lib/mysql
-
-volumes:
-  dbdata:
+      - ./frontend:/app
+      - /app/node_modules
